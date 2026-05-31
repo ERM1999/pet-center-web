@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>PetCenter</title>
+
+  <!-- Fuente principal para el estilo general -->
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Archivo CSS principal -->
+  <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+  <div id="confirm-box" class="info-message oculto">
+    <p id="confirm-text"></p>
+    <div class="confirm-buttons">
+        <button id="confirm-yes" class="pill-btn" style="margin-right:10px;">Sí</button>
+        <button id="confirm-no" class="pill-btn">No</button>
+    </div>
+</div>
+
+<div class="curva-superior"></div>
+  <div class="curva-inferior"></div>
+
+<!-- =========================================================================
+     Barra de navegación principal
+     Contiene los accesos a Pets, Adoptions y Users
+=========================================================================== -->
+<header class="topnav">
+  <div class="topnav-inner">
+
+    <!-- Logo que devuelve a la pantalla principal -->
+    <div class="topnav-logo" onclick="mostrarModulo('home')">
+      PetCenter
+    </div>
+
+    <!-- Menú principal superior -->
+    <nav class="topnav-menu">
+      <button onclick="mostrarModulo('pet')">Mascotas</button>
+      <button onclick="mostrarModulo('adoptions')">Adopciones</button>
+      <button onclick="mostrarModulo('user')">Usuarios</button>
+    </nav>
+
+  </div>
+</header>
+
+
+<!-- =========================================================================
+     Hero principal de la portada
+=========================================================================== -->
+<section id="hero-pet" class="hero-pet">
+
+  <!-- Video decorativo de fondo -->
+  <video autoplay muted loop playsinline id="hero-video">
+    <source src="./assets/video/6953280-hd_1920_1080_25fps.mp4" type="video/mp4">
+    Your browser does not support HTML5 video.
+  </video>
+
+  <!-- Mensaje principal del hero -->
+  <div class="hero-content">
+    <h2>Mascotas en adopción</h2>
+    <p>Encuentra tu compañero ideal</p>
+  </div>
+
+</section>
+
+
+
+<!-- =========================================================================
+     Contenedor general de contenido interno
+=========================================================================== -->
+<div class="layout">
+<main class="main-content">
+
+
+
+<!-- =========================================================================
+     Submenú Pets
+=========================================================================== -->
+
+<div id="submenu-pet" class="submenu oculto">
+  <button class="pill-btn" onclick="manager.mostrarFormulario('form-add')">Añadir</button>
+  <button class="pill-btn" onclick="manager.mostrarFormulario('form-search')">Buscar</button>
+  <button class="pill-btn" onclick="manager.mostrarFormulario('form-search-advanced')">Búsqueda avanzada</button>
+</div>
+
+<div id="intro-pets" class="intro-pets oculto">
+  <h3>Bienvenido al Panel de Mascotas</h3>
+  <p>
+    Aquí tienes acceso al corazón del centro: nuestras mascotas.
+    Gestiona, organiza, añade, edita y busca todo lo necesario para
+    mantener el sistema funcionando a la perfección.
+  </p>
+</div>
+
+
+
+
+<!-- =========================================================================
+     Submenú Adoptions
+=========================================================================== -->
+<!-- Submenú Adoptions --><div id="submenu-adoptions" class="submenu oculto">
+  <button class="pill-btn"
+    onclick="document.getElementById('intro-adoptions').classList.add('oculto');
+             store.showForm('form-order-create')">
+    Crear
+  </button>
+
+  <button class="pill-btn"
+    onclick="document.getElementById('intro-adoptions').classList.add('oculto');
+             store.showForm('form-order-delete')">
+    Eliminar
+  </button>
+
+  <button class="pill-btn"
+    onclick="document.getElementById('intro-adoptions').classList.add('oculto');
+             store.showForm('form-inventory')">
+    Todas las mascotas
+  </button>
+
+  <button class="pill-btn"
+    onclick="document.getElementById('intro-adoptions').classList.add('oculto');
+             store.showForm('form-order-manage')">
+    Gestionar pedido
+  </button>
+</div>
+
+
+<!-- Intro Adoptions (DEBAJO del submenú, no dentro) -->
+<div id="intro-adoptions" class="intro-pets oculto">
+  <h3>Bienvenido al Panel de Adopciones</h3>
+  <p>
+    Desde aquí puedes gestionar el ciclo completo de los pedidos de adopción.
+    Crea nuevas solicitudes, elimina pedidos de adopción existentes y gestiona
+    cada pedido de forma individual, pudiendo localizarlo, consultar su estado
+    y modificarlo cuando sea necesario.
+    En este panel se muestrannuestras últimas adopciones registradas, ofreciendo una visión clara y
+    actualizada de la actividad del centro.
+  </p>
+</div>
+
+
+
+<!-- =========================================================================
+     Módulo Users
+=========================================================================== -->
+<section id="module-user" class="oculto">
+  <div class="user-center">
+
+    <!-- Panel principal del módulo User -->
+    <div id="user-panel" class="user-panel">
+      <div class="user-panel-box">
+        <h2>Gestión de usuarios</h2>
+        <p>Seleccione una opción para empezar</p>
+
+        <button class="pill-btn full" onclick="user.showForm('form-user-create')">Añadir</button>
+        <button class="pill-btn full" onclick="user.showForm('form-user-find')">Buscar</button>
+        <button class="pill-btn full" onclick="user.showForm('form-user-login')">Iniciar sesión</button>
+        <button class="pill-btn full" onclick="user.showForm('form-user-edit')">Editar</button>
+        <button class="pill-btn full" onclick="user.showForm('form-user-delete')">Eliminar</button>
+      </div>
+    </div>
+
+
+    <!-- Formulario: Crear usuario -->
+    <div id="form-user-create" class="formulario oculto">
+  <span class="close-user" onclick="user.showForm('user-panel')">✕</span>
+
+  <h3>Añadir usuario</h3>
+
+  <label for="user-create-username">Nombre de usuario</label>
+  <input id="user-create-username" placeholder="Nombre de usuario">
+
+  <label for="user-create-fname">Nombre</label>
+  <input id="user-create-fname" placeholder="Nombre">
+
+  <label for="user-create-lname">Apellido</label>
+  <input id="user-create-lname" placeholder="Apellido">
+
+  <label for="user-create-email">Correo electrónico</label>
+  <input id="user-create-email" placeholder="Correo electrónico">
+
+  <label for="user-create-password">Contraseña</label>
+  <input id="user-create-password" type="password" placeholder="Contraseña">
+
+  <label for="user-create-phone">Teléfono</label>
+  <input id="user-create-phone" placeholder="Teléfono">
+
+  <button onclick="user.createUser()">Añadir usuario</button>
+</div>
+
+
+    <!-- Formulario: Lista de usuarios JSON -->
+    <div id="form-user-list" class="formulario oculto">
+      <span class="close-user" onclick="user.showForm('user-panel')">✕</span>
+      <h3>User list</h3>
+
+      <textarea id="user-list-json"></textarea>
+      <button onclick="user.createUserList()">Send</button>
+    </div>
+
+
+    <!-- Formulario: Login -->
+    <div id="form-user-login" class="formulario oculto">
+  <span class="close-user" onclick="user.showForm('user-panel')">✕</span>
+  
+  <h3>Iniciar sesión</h3>
+
+  <label for="user-login-name">Nombre de usuario</label>
+  <input id="user-login-name" placeholder="Nombre de usuario">
+
+  <label for="user-login-pass">Contraseña</label>
+  <input id="user-login-pass" type="password" placeholder="Contraseña">
+
+  <button onclick="user.login()">Iniciar sesión</button>
+
+  <div id="user-login-result"></div>
+</div>
+
+
+    <!-- Formulario: Buscar usuario -->
+    <!-- Formulario: Buscar usuario -->
+<div id="form-user-find" class="formulario oculto">
+  <span class="close-user" onclick="user.showForm('user-panel')">✕</span>
+  <h3>Buscar usuario</h3>
+
+  <label for="user-find-name">Nombre de usuario</label>
+  <input id="user-find-name" placeholder="Nombre de usuario">
+
+  <button onclick="user.findUser()">Buscar</button>
+
+  <div id="user-find-result"></div>
+</div>
+
+
+    <!-- Formulario: Editar usuario -->
+    <!-- Formulario: Editar usuario -->
+<div id="form-user-edit" class="formulario oculto">
+  <span class="close-user" onclick="user.showForm('user-panel')">✕</span>
+  <h3>Editar usuario</h3>
+
+  <label for="user-edit-name">Nombre de usuario</label>
+  <input id="user-edit-name" placeholder="Nombre de usuario">
+
+  <label for="user-edit-email">Nuevo correo electrónico</label>
+  <input id="user-edit-email" placeholder="Nuevo correo electrónico">
+
+  <button onclick="user.updateUser()">Guardar</button>
+</div>
+
+
+    <!-- Formulario: Eliminar usuario -->
+    <!-- Formulario: Eliminar usuario -->
+<div id="form-user-delete" class="formulario oculto">
+  <span class="close-user" onclick="user.showForm('user-panel')">✕</span>
+  <h3>Eliminar usuario</h3>
+
+  <label for="user-delete-name">Nombre de usuario</label>
+  <input id="user-delete-name" placeholder="Nombre de usuario">
+
+  <button onclick="user.deleteUser()">Eliminar</button>
+</div>
+
+  </div>
+</section>
+
+
+
+<!-- =========================================================================
+     Dashboard de solicitudes de adopción
+=========================================================================== -->
+<div id="adopciones-dashboard" class="adopciones-dashboard oculto">
+  <div class="adopciones-header">
+    <h2>Adoption requests</h2>
+    <p>Request management</p>
+  </div>
+</div>
+
+
+
+<!-- =========================================================================
+     Formularios PET
+=========================================================================== -->
+
+<!-- Crear mascota -->
+<!-- Crear mascota -->
+<div id="form-add" class="formulario oculto">
+  <span class="close-user" onclick="cerrarTodo()">✕</span>
+
+  <h3 id="titulo-form-mascota">Nueva mascota</h3>
+
+  <label for="add-name">Nombre de la mascota</label>
+  <input id="add-name" placeholder="Nombre de la mascota">
+
+  <label for="add-category-id">ID de categoría</label>
+  <input id="add-category-id" placeholder="ID de categoría">
+
+  <label for="add-category-name">Nombre de la categoría</label>
+  <input id="add-category-name" placeholder="Nombre de la categoría">
+
+  <label for="add-photo">URL de la foto</label>
+  <input id="add-photo" placeholder="URL de la foto">
+
+  <label for="add-tags">Etiquetas</label>
+  <input id="add-tags" placeholder="Etiquetas (separadas por comas)">
+
+  <label for="add-status">Estado</label>
+  <select id="add-status">
+    <option value="available">Disponible</option>
+    <option value="pending">Pendiente</option>
+    <option value="sold">Adoptada</option>
+  </select>
+
+  
+<button id="btn-add-mascota" onclick="manager.crearNuevaMascota()">
+  Crear mascota
+</button>
+
+</div>
+
+
+
+<!-- Buscar mascota -->
+<!-- Buscar mascota -->
+<div id="form-search" class="formulario oculto">
+  <span class="close-user" onclick="cerrarTodo()">✕</span>
+
+  <h3>Buscar mascotas</h3>
+
+  <label for="search-id">ID (opcional)</label>
+  <input id="search-id" placeholder="ID (opcional)">
+
+  <label for="search-name">Nombre (opcional)</label>
+  <input id="search-name" placeholder="Nombre (opcional)">
+
+  <button onclick="manager.buscarMascotas()">Buscar</button>
+</div>
+
+
+
+<!-- Búsqueda avanzada -->
+<!-- Búsqueda avanzada -->
+<div id="form-search-advanced" class="formulario oculto">
+  <span class="close-user" onclick="cerrarTodo()">✕</span>
+
+  <h3>Búsqueda avanzada</h3>
+
+  <label for="search-status">Estado</label>
+  <select id="search-status">
+    <option value="">Estado</option>
+    <option value="available">Disponible</option>
+    <option value="pending">Pendiente</option>
+    <option value="sold">Adoptada</option>
+  </select>
+
+
+
+  <button onclick="manager.buscarAvanzado()">Buscar</button>
+</div>
+
+
+
+<!-- =========================================================================
+     Formularios adoptions
+=========================================================================== -->
+
+<!-- Crear pedido -->
+<!-- Crear pedido -->
+<div id="form-order-create" class="formulario oculto">
+  <span class="close-user" onclick="cerrarTodo()">✕</span>
+
+  <h3>Crear pedido</h3>
+
+  <label for="order-petId">ID de la mascota</label>
+  <input id="order-petId" placeholder="ID de la mascota">
+
+  <label for="order-qty">Cantidad</label>
+  <input id="order-qty" type="number" value="1" min="1" readonly>
+
+  <label for="order-shipDate">Fecha de envío</label>
+  <input id="order-shipDate" type="datetime-local">
+
+  <label for="order-status">Estado</label>
+  <select id="order-status">
+    <option value="placed">Realizado</option>
+    <option value="approved">Aprobado</option>
+    <option value="delivered">Entregado</option>
+  </select>
+
+  <label>
+    <input type="checkbox" id="order-complete"> Completado
+  </label>
+
+  <button onclick="store.createOrder()">Crear pedido</button>
+</div>
+
+<!-- Gestionar pedido (Buscar + Actualizar) -->
+<div id="form-order-manage" class="formulario oculto">
+  <span class="close-user" onclick="cerrarTodo()">✕</span>
+
+  <h3>Buscar y actualizar pedido</h3>
+
+  <!-- BUSCAR -->
+  <label for="order-manage-id">ID del pedido</label>
+  <input id="order-manage-id" placeholder="ID del pedido">
+
+  <button onclick="store.findOrderForUpdate()">Buscar pedido</button>
+
+  <div id="order-manage-result"></div>
+
+  <!-- ACTUALIZAR (se muestra solo tras buscar) -->
+  <div id="order-update-section" class="oculto">
+
+    <h4>Actualizar estado</h4>
+
+    <label for="order-update-status">Nuevo estado</label>
+    <select id="order-update-status">
+      <option value="placed">Realizado</option>
+      <option value="approved">Aprobado</option>
+      <option value="delivered">Entregado</option>
+    </select>
+
+    <button onclick="store.updateOrderStatus()">Actualizar</button>
+  </div>
+</div>
+
+
+
+
+<!-- Eliminar pedido -->
+<!-- Eliminar pedido -->
+<div id="form-order-delete" class="formulario oculto">
+  <span class="close-user" onclick="cerrarTodo()">✕</span>
+
+  <h3>Eliminar pedido</h3>
+
+  <label for="order-delete-id">ID del pedido</label>
+  <input id="order-delete-id" placeholder="ID del pedido">
+
+  <button onclick="store.deleteOrder()">Eliminar</button>
+</div>
+
+
+
+<!-- Inventario -->
+<!-- Inventario -->
+<div id="form-inventory" class="formulario oculto">
+  <span class="close-user" onclick="cerrarTodo()">✕</span>
+
+  <h3>Todas las mascotas</h3>
+
+  <button onclick="store.getInventory()">Mostrar</button>
+
+  <div id="inventory-result"></div>
+</div>
+
+
+
+<!-- =========================================================================
+     Tarjetas y zona de resultados
+=========================================================================== -->
+
+<div id="info-message" class="info-message oculto"></div>
+
+<div id="zona-tarjetas" class="zona-tarjetas"></div>
+
+<div class="pie-acciones">
+  <button id="botonVerMas" onclick="manager.cargarMas()">Ver más</button>
+</div>
+
+
+
+</main>
+</div>
+
+
+
+<!-- =========================================================================
+     Scripts principales
+=========================================================================== -->
+<script src="./PetManager.js"></script>
+<script src="./StoreManager.js"></script>
+<script src="./UserManager.js"></script>
+
+
+
+<!-- =========================================================================
+     Script de navegación entre módulos
+=========================================================================== -->
+<script>
+function mostrarModulo(modulo) {
+
+  /* Ocultar elementos principales */
+  document.getElementById("hero-pet").style.display = "none";
+  document.getElementById("zona-tarjetas").style.display = "none";
+  document.getElementById("botonVerMas").style.display = "none";
+  document.getElementById("info-message").classList.add("oculto");
+  document.getElementById("intro-pets").classList.add("oculto");
+  document.getElementById("intro-adoptions").classList.add("oculto");
+  
+  
+
+  /* Restablecer vista interna */
+  document.body.classList.remove("internal-view");
+
+  /* Ocultar todos los submenús y formularios */
+  document.querySelectorAll(".formulario").forEach(f => f.classList.add("oculto"));
+  document.getElementById("submenu-pet").classList.add("oculto");
+  document.getElementById("submenu-adoptions").classList.add("oculto");
+  document.getElementById("module-user").classList.add("oculto");
+  document.getElementById("adopciones-dashboard").classList.add("oculto");
+
+  /* Quitar selección activa del menú */
+  document.querySelectorAll(".topnav-menu button").forEach(b => b.classList.remove("active"));
+
+  /* Home */
+  if (modulo === "home") {
+    document.getElementById("hero-pet").style.display = "block";
+    return;
+  }
+
+  /* Pets */
+  
+/* Pets */
+if (modulo === "pet") {
+  
+  manager.modo = "pets"; 
+    document.body.classList.add("internal-view");
+    document.querySelector(".topnav-menu button:nth-child(1)").classList.add("active");
+
+    document.getElementById("submenu-pet").classList.remove("oculto");
+
+    manager.iniciar();
+    document.getElementById("intro-pets").classList.remove("oculto");
+    document.getElementById("zona-tarjetas").style.display = "grid";
+    document.getElementById("botonVerMas").style.display = "block";
+    return;
+}
+
+
+  /* Adoptions */
+  if (modulo === "adoptions") {
+    
+    document.body.classList.add("internal-view");
+    document.querySelector(".topnav-menu button:nth-child(2)").classList.add("active");
+
+    
+  manager.modo = "adoptions"; 
+manager.indice = 0;
+manager.visibles = [];
+
+
+    document.getElementById("submenu-adoptions").classList.remove("oculto");
+
+    // MOSTRAR PANEL INTRODUCTORIO DE ADOPCIONES
+    document.getElementById("intro-adoptions").classList.remove("oculto");
+
+    manager.mostrarMascotasAdoptadas();
+    document.getElementById("zona-tarjetas").style.display = "grid";
+    document.getElementById("botonVerMas").style.display = "block";
+    return;
+}
+
+
+  /* Users */
+  if (modulo === "user") {
+    document.body.classList.add("internal-view");
+    document.querySelector(".topnav-menu button:nth-child(3)").classList.add("active");
+
+    document.getElementById("module-user").classList.remove("oculto");
+    user.showForm("user-panel");
+  }
+}
+</script>
+</body>
+</html>
