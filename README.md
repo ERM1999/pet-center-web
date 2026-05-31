@@ -17,7 +17,6 @@ Este proyecto es una pieza viva en constante evolución. Actualmente, tengo iden
 
 - [ ] **Refactorización de lógica JS:** La función `mostrarModulo` y la gestión de formularios tienen redundancia de código que será optimizada próximamente.
 - [ ] **Modularización:** Mover la lógica de los formularios a componentes reutilizables para reducir la extensión del archivo HTML.
-- [ ] **Mejora en UI/UX:** Optimización de la experiencia de usuario y estandarización de los componentes visuales.
 - [ ] **Automatización:** Este proyecto es la base sobre la que corre el framework de pruebas automatizadas [enlace a tu repo de tests].
 
 ## Tecnologías
